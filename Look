@@ -1,0 +1,139 @@
+import os
+import requests
+
+def clear():
+    os.system("clear")
+
+def banner():
+    print("""
+╔══════════════════════╗
+║    loockuo tool      ║
+╚══════════════════════╝
+    """)
+
+# ---------------- SOCIALS ----------------
+def my_socials():
+    clear()
+    banner()
+    print("""
+[ My Socials ]
+
+GitHub  : onlygiorgi-20
+TikTok  : klly202
+Discord : only.giorgi
+Facebook: only.giorgi
+    """)
+    input("\nPress Enter...")
+
+# ---------------- USERNAME TRACKER ----------------
+def username_search():
+    clear()
+    banner()
+    username = input("Enter username: ")
+
+    sites = {
+        "GitHub": f"https://github.com/{username}",
+        "TikTok": f"https://www.tiktok.com/@{username}",
+        "Instagram": f"https://www.instagram.com/{username}",
+        "Reddit": f"https://www.reddit.com/user/{username}"
+    }
+
+    print("\n[+] Checking username...\n")
+
+    for site, url in sites.items():
+        try:
+            r = requests.get(url)
+            if r.status_code == 200:
+                print(f"[FOUND] {site}: {url}")
+            else:
+                print(f"[NOT FOUND] {site}")
+        except:
+            print(f"[ERROR] {site}")
+
+    input("\nPress Enter...")
+
+# ---------------- IP TRACKER ----------------
+def ip_info():
+    clear()
+    banner()
+    ip = input("Enter IP: ")
+
+    try:
+        data = requests.get(f"http://ip-api.com/json/{ip}").json()
+
+        print("\nIP INFO:\n")
+        for key in ["query", "country", "city", "isp"]:
+            print(f"{key.upper()}: {data.get(key)}")
+
+    except:
+        print("Error.")
+
+    input("\nPress Enter...")
+
+# ---------------- MY IP ----------------
+def my_ip():
+    clear()
+    banner()
+
+    try:
+        data = requests.get("http://ip-api.com/json/").json()
+
+        print("\n[ YOUR IP INFO ]\n")
+        for key in ["query", "country", "city", "isp"]:
+            print(f"{key.upper()}: {data.get(key)}")
+
+    except:
+        print("Error.")
+
+    input("\nPress Enter...")
+
+# ---------------- PHONE INFO ----------------
+def phone_info():
+    clear()
+    banner()
+    number = input("Enter phone number (+xxx): ")
+
+    if number.startswith("+"):
+        print("\n[ BASIC PHONE INFO ]\n")
+        print("Country code:", number[1:4])
+        print("Note: full tracking not possible ❌")
+    else:
+        print("Invalid format. Use +123...")
+
+    input("\nPress Enter...")
+
+# ---------------- MENU ----------------
+def main():
+    while True:
+        clear()
+        banner()
+        print("""
+1. My Socials
+2. Username Tracker
+3. IP Tracker
+4. My IP
+5. Phone Info
+6. Exit
+        """)
+
+        choice = input("Select: ")
+
+        if choice == "1":
+            my_socials()
+        elif choice == "2":
+            username_search()
+        elif choice == "3":
+            ip_info()
+        elif choice == "4":
+            my_ip()
+        elif choice == "5":
+            phone_info()
+        elif choice == "6":
+            print("Exiting loockuo tool 🥀")
+            break
+        else:
+            print("Invalid")
+            input("Enter...")
+
+if __name__ == "__main__":
+    main()
